@@ -1,5 +1,8 @@
+
+
 import Express from "express";
 import { Request, Response, NextFunction } from "express";
+import { job } from "./cronjob";
 import routes from "./routes";
 
 function handleNotFound(req: Request, res: Response, next: NextFunction): void {
@@ -34,5 +37,8 @@ app.use(handleNotFound);
 
 // Error handler
 app.use(handleError);
+
+job.start();
+
 
 export default app;
