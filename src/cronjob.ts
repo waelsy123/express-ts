@@ -3,14 +3,14 @@ import { BombCryptoBotUpdate } from './models/BombCryptoBotUpdate';
 
 var CronJob = require('cron').CronJob;
 
-export var job = new CronJob('0 * * * * *', async function () {
+export var job = new CronJob('0 0 * * * *', async function () {
     console.log('cron job started..');
     const batch = new Date().getTime().toString()
 
     const dataArray: any = []
 
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; true; i++) {
         await sleep(50)
 
         const data = await callNode(i)
