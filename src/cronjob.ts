@@ -3,7 +3,7 @@ import { BombCryptoBotUpdate } from './models/BombCryptoBotUpdate';
 
 var CronJob = require('cron').CronJob;
 
-export var job = new CronJob('0 0 * * * *', async function () {
+const update = async () => {
     console.log('cron job started..');
     const batch = new Date().getTime().toString()
 
@@ -14,7 +14,7 @@ export var job = new CronJob('0 0 * * * *', async function () {
         await sleep(50)
 
         const data = await callNode(i)
-        console.log("🚀 ~ file: cronjob.ts ~ line 24 ~ job ~ data", data)
+        console.log("🚀 ~ file: cronjob.ts ~ line 24 ~ job ~ data", i, data)
 
         if (!data) {
             break
@@ -30,10 +30,16 @@ export var job = new CronJob('0 0 * * * *', async function () {
         })
     }
 
-    if (dataArray.length === 0) { return }
+    if (dataArray.length === 0) {
+        console.log("🚀 ~ file: cronjob.ts ~ line 34 ~ job ~ dataArray", dataArray)
+    }
 
     const res = await BombCryptoBotUpdate.query().insert(dataArray)
     console.log("🚀 ~ file: cronjob.ts ~ line 34 ~ job ~ res", res)
 
+}
+
+export var job = new CronJob('0 0 * * * *', async function () {
+    await update()
 
 }, null, true, 'America/Los_Angeles');
