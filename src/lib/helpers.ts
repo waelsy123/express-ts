@@ -22,12 +22,11 @@ const isLive = async (host: string) => {
 }
 
 export const callNode = async (i: number, it = 0) => {
-    if (it > 50) {
-        console.log("🚀 ~ file: helpers.ts ~ line 20 ~ callNode ~ it", it)
+    const getLastUpdate = async () => {
 
         const lastUpdate = await BombCryptoBotUpdate.query().findOne({
             bomberman_id: i
-        })
+        }).orderBy('created_at', 'DESC')
 
 
         if (!lastUpdate) return null
@@ -37,6 +36,11 @@ export const callNode = async (i: number, it = 0) => {
             Bomberman: lastUpdate.bomberman,
             Key: lastUpdate.keys
         }
+    }
+    if (it > 50) {
+        console.log("🚀 ~ file: helpers.ts ~ line 20 ~ callNode ~ it", it)
+
+        return await getLastUpdate()
     }
 
     const host = `http://75.119.135.161:${3100 + i}`
@@ -52,7 +56,8 @@ export const callNode = async (i: number, it = 0) => {
             return res
         }
 
-        return null
+
+        return await getLastUpdate()
 
     }
 
