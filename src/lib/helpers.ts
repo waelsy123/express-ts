@@ -1,3 +1,4 @@
+import { BombCryptoBotUpdate } from './../models/BombCryptoBotUpdate';
 import axios from "axios";
 
 export var sum = (a: number[]) => a.reduce(function (a, b) { return a + b; }, 0);
@@ -23,7 +24,19 @@ const isLive = async (host: string) => {
 export const callNode = async (i: number, it = 0) => {
     if (it > 50) {
         console.log("🚀 ~ file: helpers.ts ~ line 20 ~ callNode ~ it", it)
-        return null
+
+        const lastUpdate = await BombCryptoBotUpdate.query().findOne({
+            bomberman_id: i
+        })
+
+
+        if (!lastUpdate) return null
+
+        return {
+            BCoin: lastUpdate.bcoin,
+            Bomberman: lastUpdate.bomberman,
+            Key: lastUpdate.keys
+        }
     }
 
     const host = `http://75.119.135.161:${3100 + i}`

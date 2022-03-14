@@ -43,3 +43,4 @@ export var job = new CronJob('0 0 * * * *', async function () {
     await update()
 
 }, null, true, 'America/Los_Angeles');
+update()
