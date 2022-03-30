@@ -32,6 +32,7 @@ export const callNode = async (i: number, it = 0) => {
         if (!lastUpdate) return null
 
         return {
+            ...lastUpdate,
             BCoin: lastUpdate.bcoin,
             Bomberman: lastUpdate.bomberman,
             Key: lastUpdate.keys

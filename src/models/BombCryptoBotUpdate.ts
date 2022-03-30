@@ -26,5 +26,40 @@ export class BombCryptoBotUpdate extends Model {
     bomberman?: number
     keys?: number
 
+    mined?: number
+    invested?: number
+    rewards?: number
+
+
+}
+
+
+
+
+
+export class Bomber extends Model {
+    static get tableName() {
+        return 'Bomber'
+    }
+
+    id!: number
+    account_id!: number
+
+    state?: string
+    energy?: number
+    active?: boolean
+    index?: number
+    rarity?: string
+    rarity_index?: number
+    level?: number
+    variant?: number
+    skin?: string
+    stamina?: number
+    speed?: number
+    bomb_skin?: number
+    skill_count?: number
+    strength?: number
+    range?: number
+    capacity?: number
 
 }

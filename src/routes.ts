@@ -9,7 +9,7 @@ router.get("/", (req, res) => res.send("Hello world!"));
 router.get("/test", async (req, res) => {
   const dataArray: any = []
 
-  for (let i = 0; true; i++) {
+  for (let i = 0; i < 2; i++) {
     await sleep(50)
 
     const data = await callNode(i)
