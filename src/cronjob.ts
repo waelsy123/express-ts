@@ -56,9 +56,10 @@ const update = async () => {
                 capacity: hero.params.capacity,
             }
         })
-
-        const res2 = await Bomber.query().insert(mappedHeros)
-        console.log("🚀 ~ file: cronjob.ts ~ line 60 ~ update ~ res2", res2)
+        if (mappedHeros && mappedHeros.length > 0) {
+            const res2 = await Bomber.query().insert(mappedHeros)
+            console.log("🚀 ~ file: cronjob.ts ~ line 60 ~ update ~ res2", res2)
+        }
     }
 }
 
