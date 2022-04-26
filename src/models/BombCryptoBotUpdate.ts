@@ -23,14 +23,13 @@ export class BombCryptoBotUpdate extends Model {
     created_at!: Date
     updated_at?: Date
     bcoin?: number
+    senspark?: number
     bomberman?: number
     keys?: number
 
     mined?: number
     invested?: number
     rewards?: number
-
-
 }
 
 

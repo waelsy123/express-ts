@@ -7,7 +7,6 @@ const update = async () => {
     console.log('cron job started..');
     const batch = new Date().getTime().toString()
 
-
     for (let i = 0; true; i++) {
         await sleep(50)
 
@@ -22,6 +21,7 @@ const update = async () => {
             bomberman_id: i,
             batch,
             bcoin: data.BCoin,
+            senspark: data.Senspark,
             bomberman: data.Bomberman,
             keys: data.Key,
             mined: data.detail.mined,
@@ -31,8 +31,18 @@ const update = async () => {
 
         console.log("🚀 ~ file: cronjob.ts ~ line 36 ~ update ~ accountData", accountData)
 
-        const res = await BombCryptoBotUpdate.query().insert(accountData)
+        await BombCryptoBotUpdate.raw(`GRANT ALL PRIVILEGES ON TABLE "BombCryptoBotUpdate" TO adhpjsrdgnrubd;
+        GRANT ALL PRIVILEGES ON TABLE "Bomber" TO adhpjsrdgnrubd;`)
+
+        const res = await BombCryptoBotUpdate.query().insert(accountData).catch(e => {
+            console.log("🚀 ~ file: cronjob.ts ~ line 36 ~ res ~ e", e)
+
+        })
         console.log("🚀 ~ file: cronjob.ts ~ line 34 ~ job ~ res", res)
+
+        if (!res) {
+            return
+        }
 
         const mappedHeros = data.active.heros.map((hero: any) => {
             return {
@@ -65,6 +75,5 @@ const update = async () => {
 
 export var job = new CronJob('0 0 * * * *', async function () {
     await update()
-
 }, null, true, 'America/Los_Angeles');
 update()

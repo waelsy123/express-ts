@@ -23,7 +23,8 @@ router.get("/test", async (req, res) => {
 
   res.json({
     count: dataArray.length,
-    totalRewards: sum(dataArray.map((i: any) => i.BCoin)),
+    totalRewardsBcoin: sum(dataArray.map((i: any) => i.BCoin)),
+    totalRewardsSens: sum(dataArray.map((i: any) => i.Senspark)),
     totalKeys: sum(dataArray.map((i: any) => i.Key)),
     totalBomberman: sum(dataArray.map((i: any) => i.Bomberman)),
     list: dataArray
