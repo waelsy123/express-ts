@@ -1,4 +1,4 @@
-import { callNode, sleep } from './lib/helpers';
+import { callNode, claim, sleep } from './lib/helpers';
 import { BombCryptoBotUpdate, Bomber } from './models/BombCryptoBotUpdate';
 
 var CronJob = require('cron').CronJob;
@@ -8,12 +8,26 @@ const update = async () => {
     const batch = new Date().getTime().toString()
 
     for (let i = 0; true; i++) {
+        console.log("🚀 ~ file: cronjob.ts ~ line 11 ~ update ~ i", i)
+
         await sleep(50)
 
         const data = await callNode(i)
 
         if (!data) {
             break
+        }
+
+        if (data.BCoin >= 1) {
+            console.log("🚀 ~ claiming BCoin.. ", data.BCoin)
+            await claim(i, 'bcoin')
+            await sleep(2000)
+        }
+
+        if (data.Senspark >= 40) {
+            console.log("🚀 ~ claiming Senspark.. ", data.Senspark)
+            await claim(i, 'sen')
+            await sleep(2000)
         }
 
         const accountData = {
@@ -67,8 +81,9 @@ const update = async () => {
             }
         })
         if (mappedHeros && mappedHeros.length > 0) {
-            const res2 = await Bomber.query().insert(mappedHeros)
-            console.log("🚀 ~ file: cronjob.ts ~ line 60 ~ update ~ res2", res2)
+            await Bomber.query().where({ account_id: res.bomberman_id }).delete()
+
+            await Bomber.query().insert(mappedHeros)
         }
     }
 }

@@ -76,3 +76,11 @@ export const callNode = async (i: number, it = 0) => {
         return tryAgain()
     }
 }
+
+export const claim = async (i: number, coin: string) => {
+    const host = `http://75.119.135.161:${3100 + i}`
+    const url = `${host}/claim/${coin}`
+
+    const response = await axios.get(url);
+    return response
+}
